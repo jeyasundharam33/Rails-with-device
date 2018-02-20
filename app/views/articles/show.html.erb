@@ -1,0 +1,40 @@
+<p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+ 
+<p>
+  <strong>Text:</strong>
+  <%= @article.text %>
+</p>
+<% if current_user.presence %>
+ <table>
+<tr>
+<td>
+<h2>Comments</h2>
+<%= render @article.comments %>
+<%= current_user.username %>
+</td>
+<td>
+<h2>Add a comment:</h2>
+<%= form_with(model: [ @article, @article.comments.build ]) do |form| %>
+  <p>
+    <%= form.label :commenter %><br>
+    <%= form.text_field :commenter %>
+  </p>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+</td>
+</tr>
+</table>
+<% else %>
+  <%= link_to('Login To Show & add Comments', new_user_session_path)  %>  
+<% end %>
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
